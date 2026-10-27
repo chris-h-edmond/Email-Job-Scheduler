@@ -1,4 +1,4 @@
-import { Worker, DelayedError } from 'bullmq';
+import { Worker } from 'bullmq';
 import { redisWorker } from './lib/redis.js';
 import { logger } from './lib/logger.js';
 import { prisma } from './db/prisma.js';
@@ -9,7 +9,7 @@ import { env } from './config/env.js';
 
 const worker = new Worker('email-send', async (job) => {
   const { emailId } = job.data;
-  logger.info({ jobId, emailId }, 'Processing email job');
+  logger.info({ jobId: job.id, emailId }, 'Processing email job');
 
   const email = await prisma.email.findUnique({
     where: { id: emailId },

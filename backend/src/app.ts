@@ -26,14 +26,18 @@ app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
 // Session
 const redisClient = createClient({ url: env.REDIS_URL });
-redisClient.connect().catch(console.error);
+if (env.NODE_ENV !== 'test') {
+  redisClient.connect().catch((error: unknown) => {
+    console.error('Session Redis connection failed', error);
+  });
+}
 const redisStore = new RedisStore({
   client: redisClient as any,
   prefix: 'sess:',
 });
 
 app.use(session({
-  store: redisStore,
+  store: env.NODE_ENV === 'test' ? undefined : redisStore,
   secret: env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,

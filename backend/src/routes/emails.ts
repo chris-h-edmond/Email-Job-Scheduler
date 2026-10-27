@@ -45,7 +45,7 @@ router.get('/:id', async (req, res) => {
   const userId = (req as any).userId;
   const email = await prisma.email.findFirst({
     where: { id: req.params.id, userId },
-    include: { sender: true, attachments: true },
+    include: { sender: true, batch: { include: { attachments: true } } },
   });
   
   if (!email) {

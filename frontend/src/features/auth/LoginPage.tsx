@@ -1,7 +1,16 @@
+import { useEffect } from 'react'
 import { Button } from '../../components/ui/Button'
 import { toast } from 'sonner'
 
 export default function LoginPage() {
+  useEffect(() => {
+    const error = new URLSearchParams(window.location.search).get('error')
+    if (error) {
+      toast.error(error === 'session_failed' ? 'Could not create your login session. Please try again.' : 'Google login failed. Please try again.')
+      window.history.replaceState({}, document.title, '/login')
+    }
+  }, [])
+
   const handleGoogleLogin = () => {
     window.location.href = '/api/auth/google'
   }

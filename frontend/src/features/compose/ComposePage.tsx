@@ -46,7 +46,7 @@ export default function ComposePage() {
         <button className="p-2 hover:bg-gray-100 rounded relative">
           <Paperclip className="w-5 h-5 text-gray-600" />
         </button>
-        <button className="p-2 hover:bg-gray-100 rounded">
+        <button onClick={() => setSendLater((value) => !value)} className="p-2 hover:bg-gray-100 rounded">
           <Clock className="w-5 h-5 text-gray-600" />
         </button>
         <Button onClick={handleSchedule} variant="outline">
@@ -72,6 +72,8 @@ export default function ComposePage() {
             <input
               type="text"
               placeholder="recipient@example.com"
+              value={to.join(', ')}
+              onChange={(e) => setTo(e.target.value.split(/[,;\s]+/).filter(Boolean))}
               className="flex-1 px-2 py-1 outline-none"
             />
             <button className="flex items-center gap-1 text-primary text-sm">

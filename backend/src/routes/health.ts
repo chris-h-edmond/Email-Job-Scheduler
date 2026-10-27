@@ -18,21 +18,21 @@ router.get('/', async (req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
     health.db = true;
-  } catch (e) {
+  } catch {
     health.ok = false;
   }
 
   try {
     await redis.ping();
     health.redis = true;
-  } catch (e) {
+  } catch {
     health.ok = false;
   }
 
   try {
     await esClient.ping();
     health.elasticsearch = true;
-  } catch (e) {
+  } catch {
     health.ok = false;
   }
 

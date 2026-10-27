@@ -14,6 +14,9 @@ export function encrypt(text: string): string {
 
 export function decrypt(encryptedData: string): string {
   const parts = encryptedData.split(':');
+  if (parts.length !== 3 || !parts[0] || !parts[1] || !parts[2]) {
+    throw new Error('Invalid encrypted value');
+  }
   const iv = Buffer.from(parts[0], 'hex');
   const authTag = Buffer.from(parts[1], 'hex');
   const encrypted = Buffer.from(parts[2], 'hex');
